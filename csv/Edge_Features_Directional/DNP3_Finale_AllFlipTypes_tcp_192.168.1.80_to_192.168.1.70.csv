@@ -1,0 +1,6 @@
+Window_Num,Num_Packets,Avg_Length,Num_Streams,Flag_Ack,Flag_Retransmission,Flag_Reset,Flag_Syn,Flag_Fin,Src_Port_Changed,Dst_Port_Changed,0
+9620,2,66,1,1,0,0,0,0,0,0,0
+11106,3,68.67,1,1,0,0,1,0,0,0,1
+11107,2,66,1,1,0,0,0,1,0,0,1
+11127,3,64.67,2,1,0,1,1,0,0,1,1
+11128,1,66,1,1,0,0,0,0,0,0,0

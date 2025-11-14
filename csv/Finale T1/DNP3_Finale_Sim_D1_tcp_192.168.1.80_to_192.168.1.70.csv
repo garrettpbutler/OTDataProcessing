@@ -1,0 +1,2 @@
+Window_Num,Num_Packets,Avg_Length,Num_Streams,Flag_Ack,Flag_Retransmission,Flag_Reset,Flag_Syn,Flag_Fin,Src_Port_Changed,Dst_Port_Changed,Round_Trip_Time
+10084,2,66.0,1,1,0,0,0,0,0,0,1.2313e-05
