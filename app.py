@@ -78,7 +78,7 @@ class MainWindow(QMainWindow):
         bottom_layout.addWidget(self.normalize_button)
 
         self.run_button = QPushButton("Run All")
-        self.run_button.clicked.connect(self.on_process)
+        self.run_button.clicked.connect(self.on_run_all)
         bottom_layout.addWidget(self.run_button)
 
         # Spacer
@@ -540,7 +540,7 @@ class MainWindow(QMainWindow):
     # ----------------------------    
     def on_process(self):
         # Clear log and start
-        self.log.clear()
+        # self.log.clear()
         log_to_console(self.log, "Starting process pcap files...")
 
         # Validate
@@ -596,7 +596,7 @@ class MainWindow(QMainWindow):
         """
 
         # Clear log and start
-        self.log.clear()
+        # self.log.clear()
         log_to_console(self.log, "Starting normalize csv...")
 
         # Validate
@@ -733,7 +733,20 @@ class MainWindow(QMainWindow):
                 log_to_console(self.log, "No CSV files found in PCAP output directory; cannot proceed with normalization.")
                 QMessageBox.warning(self, "No CSVs", "No CSV files found in PCAP output directory; cannot proceed with normalization.")
                 return
-            self.add_files_from_folder_csv(pcap_output_dir)
+            for entry in os.scandir(pcap_output_dir):
+                if entry.is_file() and entry.name.lower().endswith(('.csv')):
+                    f = entry.path
+                    if not any(r.path == f for r in self.csv_file_rows):
+                        self._update_csv_placeholder()
+                        # Default no add-time
+                        name = os.path.basename(f)
+                        ext = normalize_windows.get_window_extremes(f)
+                        first_win = ext['min'] if ext['min'] is not None else 0
+                        last_win = ext['max'] if ext['max'] is not None else 0
+
+                        row = CsvRow(name=name, path=f, first_window=first_win, last_window=last_win)
+                        self.csv_file_rows.append(row)
+                        self._append_row_to_table_csv(row)
         if not self.norm_output_edit.text().strip():
             log_to_console(self.log, "No normalization output directory specified; using PCAP output directory.")
             pcap_output_dir = self.output_dir_edit.text().strip()
