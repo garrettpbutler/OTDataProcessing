@@ -136,9 +136,12 @@ class MainWindow(QMainWindow):
         self.add_from_folder_btn.clicked.connect(self.add_files_from_folder)
         self.remove_selected_btn = QPushButton("Remove Selected")
         self.remove_selected_btn.clicked.connect(self.remove_selected_files)
+        self.remove_all_btn = QPushButton("Remove All")
+        self.remove_all_btn.clicked.connect(self.remove_all)
         btn_layout.addWidget(self.add_files_btn)
         btn_layout.addWidget(self.add_from_folder_btn)
         btn_layout.addWidget(self.remove_selected_btn)
+        btn_layout.addWidget(self.remove_all_btn)
         btn_layout.addStretch()
 
         group_layout.addLayout(btn_layout)
@@ -265,6 +268,11 @@ class MainWindow(QMainWindow):
             if row < len(self.file_rows):
                 self.file_rows.pop(row)
 
+    def remove_all(self):
+        self.selected_pcap_rows.clear()
+        self.table.setRowCount(0)
+        self.file_rows.clear()
+
     def _remove_row(self):
         # remove single row and model
         button = self.sender()
@@ -357,9 +365,12 @@ class MainWindow(QMainWindow):
         self.add_from_folder_btn_csv.clicked.connect(self.add_files_from_folder_csv)
         self.remove_selected_btn_csv = QPushButton("Remove Selected")
         self.remove_selected_btn_csv.clicked.connect(self.remove_selected_files_csv)
+        self.remove_all_btn_csv = QPushButton("Remove All")
+        self.remove_all_btn_csv.clicked.connect(self.remove_all_csv)
         csv_btn_layout.addWidget(self.add_files_btn_csv)
         csv_btn_layout.addWidget(self.add_from_folder_btn_csv)
         csv_btn_layout.addWidget(self.remove_selected_btn_csv)
+        csv_btn_layout.addWidget(self.remove_all_btn_csv)
         csv_btn_layout.addStretch()
 
         norm_input_layout.addLayout(csv_btn_layout)
@@ -497,6 +508,12 @@ class MainWindow(QMainWindow):
             # remove from file_rows as well
             if row < len(self.csv_file_rows):
                 self.csv_file_rows.pop(row)
+
+    def remove_all_csv(self):
+        self.selected_csv_rows.clear()
+        self.csv_table.setRowCount(0)
+        self.csv_file_rows.clear()
+        self._update_csv_placeholder()
 
     def _remove_row_csv(self):
         # remove single row and model
